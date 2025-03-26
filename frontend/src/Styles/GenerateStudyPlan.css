@@ -1,0 +1,221 @@
+/* General Styling */
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: #f4f4f4;
+}
+
+/* Study Plan Container */
+.study-plan-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100vw;
+    max-width: 1600px;
+    background:  #e3f2fd;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* Background Animation */
+.study-plan-container::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    z-index: -1;
+    animation: bgAnimation 6s infinite alternate;
+}
+
+@keyframes bgAnimation {
+    0% { background: linear-gradient(135deg, #e3f2fd, #bbdefb); }
+    100% { background: linear-gradient(135deg, #bbdefb, #e3f2fd); }
+}
+
+/* Card Styling */
+.study-plan-card {
+    background: #bbdefb;
+    /*background: linear-gradient(135deg, #e3f2fd, #bbdefb); /* Light blue gradient */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    height: 90%;
+    max-width: 1600px;
+    text-align: center;
+    overflow-y: auto;
+    max-height: 100vh;
+}
+
+/* Input Fields */
+.input-container, .study-plan-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.study-plan-container input {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.1em;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.study-plan-container input:focus {
+    border-color: #1976d2;
+    outline: none;
+    box-shadow: 0px 0px 10px rgba(25, 118, 210, 0.5);
+}
+
+/* Buttons */
+.study-plan-container button, .button-group button {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    margin-top: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.button-group{
+    display: inline;
+    justify-content: center;
+    gap: 20px;
+}
+
+.study-plan-container button:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+}
+
+.study-plan-container button:active {
+    background-color: #004494;
+    transform: translateY(1px);
+}
+
+.success-btn {
+    background-color: #28a745;
+}
+.success-btn:hover {
+    background-color: #218838;
+}
+
+.reset-btn {
+    background-color: #dc3545;
+}
+.reset-btn:hover {
+    background-color: #c82333;
+}
+
+/* Study Plan Table */
+.study-plan-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    overflow-x: auto;
+}
+
+.study-plan-table th, .study-plan-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.study-plan-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.study-plan-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Error Text */
+.error-text {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Subtopics Grid */
+.subtopics-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+}
+
+.subtopic-label {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Space between checkbox and text */
+    background: #eef2f7;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: fit-content;
+}
+
+.subtopic-label:hover {
+    background: #dde5ec;
+}
+
+/* Style for checkbox */
+.subtopic-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #007bff; /* Change color of checked box */
+}
+
+/* Style for text */
+.subtopic-text {
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .study-plan-container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .study-plan-container .action-buttons {
+        flex-direction: column;
+    }
+
+    .study-plan-list {
+        max-width: 100%;
+    }
+
+    .subtopics-container {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+}

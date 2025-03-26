@@ -1,0 +1,155 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'roboto', sans-serif;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb); /* Light blue gradient */
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Container */
+.progress-container {
+    width: 90%;
+    max-width: 800px;
+    min-width: 100vw;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    max-height: 100vh;
+
+    /* ✅ Center elements */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; /* Ensures text is centered */
+}
+
+
+.page-title {
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-size: 1.8em;
+    color: #0d47a1;
+    margin-bottom: 20px;
+}
+
+/* Scrollable list */
+.progress-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.progress-container::-webkit-scrollbar-thumb {
+    background: #1976d2;
+    border-radius: 10px;
+}
+
+/* Individual Progress Box */
+.progress-box {
+    background: #f0f8ff;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    width:50%;
+    justify-content: center;
+}
+
+.progress-box:hover {
+    transform: scale(1.02);
+}
+
+/* Topic Title */
+.topic-title {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 8px;
+}
+
+/* Progress Bar */
+.progress-bar {
+    width: 100%;
+    height: 25px;
+    background: #ddd;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: white;
+    transition: width 0.5s ease-in-out;
+}
+
+.progress-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Perfect centering */
+    color: black; /* Ensures visibility on all background colors */
+}
+/* Progress Colors */
+.progress-fill.red { background: #e74c3c; }     /* < 20% */
+.progress-fill.orange { background: #f39c12; }  /* 20% - 50% */
+.progress-fill.yellow { background: #f1c40f; }  /* 50% - 80% */
+.progress-fill.blue { background: #2ecc71; }    /* > 80% */
+
+/* Study Button */
+.study-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    text-align: center;
+}
+
+.study-btn:hover {
+    transform: scale(1.05);
+}
+
+.study-btn.start { background: #1976d2; } /* Start Studying */
+.study-btn.complete { background: #2ecc71; } /* Mark as Completed */
+
+/* Responsive */
+@media (max-width: 600px) {
+    .progress-container {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .topic-title {
+        font-size: 1em;
+    }
+
+    .study-btn {
+        font-size: 0.9em;
+    }
+}

@@ -1,0 +1,215 @@
+/* ============ Global Reset ============ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+root{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    min-width: 100vw;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+/* Hide default checkbox */
+.custom-checkbox input {
+    display: none;
+  }
+  
+  /* Custom checkbox design */
+  .custom-checkbox .checkmark {
+    width: 20px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 5px;
+    display: inline-block;
+    position: relative;
+    transition: 0.3s;
+  }
+  
+  /* Checked state */
+  .custom-checkbox input:checked + .checkmark {
+    background-color: #4caf50; /* Green when checked */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .custom-checkbox input:checked + .checkmark::after {
+    content: "✔";
+    color: white;
+    font-size: 14px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+/* ============ Page Container ============ */
+.ongoing-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: auto;
+}
+
+/* ============ Page Title ============ */
+.page-title {
+    font-size: 2.5em;
+    color: #0d47a1;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* ============ No Schedules Message ============ */
+.no-schedules {
+    font-size: 1.2em;
+    color: #37474f;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* ============ Schedule Box ============ */
+.schedule-box {
+    width: 100%;
+    max-width: 850px;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    background: rgb(203, 226, 236);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* ============ Schedule Title ============ */
+.schedule-title {
+    font-size: 1.8em;
+    color: #0d47a1;
+    margin-bottom: 10px;
+}
+
+/* ============ Table Styling ============ */
+.study-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.complete-btn {
+    padding: 8px 12px;
+    background-color: #388e3c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.complete-btn:hover {
+    background-color: #2e7d32;
+}
+
+.delete-btn {
+    padding: 8px 12px;
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #b71c1c;
+}
+
+.study-table thead {
+    position: sticky;
+    top: 0;
+    background-color: #1976d2;
+    z-index: 2;
+}
+
+.study-table th, .study-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.study-table th {
+    background-color: #1976d2;
+    color: white;
+    text-align: center;
+}
+
+.study-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* ============ Delete Button ============ */
+.delete-btn {
+    padding: 8px 12px;
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #b71c1c;
+}
+
+/* ============ Animations ============ */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============ Responsive Design ============ */
+@media (max-width: 768px) {
+    .ongoing-container {
+        padding: 15px;
+    }
+
+    .page-title {
+        font-size: 2em;
+    }
+
+    .schedule-box {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .study-table th, .study-table td {
+        padding: 8px;
+        font-size: 0.9em;
+    }
+
+    .delete-btn {
+        font-size: 0.9em;
+        padding: 6px 10px;
+    }
+}
