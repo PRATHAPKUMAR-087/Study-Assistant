@@ -84,6 +84,7 @@ export default function Dashboard() {
             <div className="col-lg-6"><div className="card border-0 shadow p-4 text-center"><h2 className="fs-5 fw-semibold">📊 Your Progress Tracker</h2><button className="btn btn-primary mt-3" onClick={() => navigate("/progress-tracker")}>See Progress</button></div></div>
             <div className="col-lg-6"><div className="card border-0 shadow p-4 text-center"><h2 className="fs-5 fw-semibold">✅ View Saved Plans</h2><button className="btn btn-primary mt-3" onClick={() => navigate("/saved-plans")}>Created Schedules</button></div></div>
             <div className="col-lg-6"><div className="card border-0 shadow p-4 text-center"><h2 className="fs-5 fw-semibold">📅 View Ongoing Schedules</h2><button className="btn btn-primary mt-3" onClick={() => navigate("/ongoing-schedules")}>Current Schedules</button></div></div>
+            <div className="col-lg-6"><div className="card border-0 shadow p-4 text-center"><h2 className="fs-5 fw-semibold">📒 Create Manual plan</h2><button className="btn btn-primary mt-3" onClick={() => navigate("/manual-schedule")}>Create Manually</button></div></div>
           </div>
         </main>
       </div>

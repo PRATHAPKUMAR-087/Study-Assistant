@@ -9,12 +9,10 @@ const SavedPlans = () => {
     const navigate = useNavigate();
     const userId = sessionStorage.getItem("userUUID");
 
+
     useEffect(() => {
         const fetchSchedules = async () => {
             try {
-                // Get the user UUID from session storage
-                const userId = sessionStorage.getItem("userUUID"); // Replace with actual method to fetch userId
-
                 if (!userId) {
                     console.error("User UUID is missing.");
                     return;
@@ -32,7 +30,7 @@ const SavedPlans = () => {
                         ...item,
                         study_plan: typeof item.study_plan === "string" ? JSON.parse(item.study_plan) : item.study_plan
                     }))
-                    .filter((item) => item.status !== "ongoing"); 
+                    .filter((item) => item.status !== "ongoing");
 
                 setSchedules(processedData);
                 setLoading(false);  // Data is loaded, stop loading state
@@ -46,54 +44,56 @@ const SavedPlans = () => {
     }, []);
 
     // Function to move study plan to "Ongoing Schedules"
-    const startStudying = async (topic, duration) => {
-        //const userId = sessionStorage.getItem("userUUID"); // Get the current user UUID from session storage
-
+    const startStudying = async (topic, createdAt) => {
         try {
             if (!userId) {
                 console.error("User UUID is missing.");
                 return;
             }
 
-            await axios.put(`http://localhost:5000/api/start-study`, { 
+            await axios.put(`http://localhost:5000/api/start-study`, {
                 userId: userId,
-                topic: topic, 
-                duration: duration,
-                status: "ongoing" 
+                topic: topic,
+                created_at: createdAt,  // Use created_at instead of duration
+                status: "ongoing"
             });
 
-            // Update state to reflect the change (you could optionally refetch the data)
+            // Update UI state
             setSchedules((prevSchedules) =>
                 prevSchedules.map((schedule) =>
-                    schedule.topic === topic ? { ...schedule, status: "ongoing" } : schedule
+                    schedule.topic === topic && schedule.created_at === createdAt
+                        ? { ...schedule, status: "ongoing" }
+                        : schedule
                 )
             );
 
             alert("✅ Study plan moved to Ongoing Schedules!");
-            navigate("/ongoing-schedules"); // Redirect to Ongoing Schedules
+            navigate("/ongoing-schedules");
         } catch (error) {
             console.error("Error starting study plan:", error);
         }
     };
 
-
-    // Handle plan removal
-    const handleRemovePlan = async (topic, duration) => {
-        
+    // ✅ Handle Remove Plan
+    const handleRemovePlan = async (topic, created_at) => {
         try {
+            //console.log("Before deletion:", schedules);
+
             await axios.delete("http://localhost:5000/api/delete-study-plan", {
-                data: { userId, topic, duration }  // Send data in the request body
+                data: { userId, topic, created_at }
             });
-    
-            setSchedules(schedules.filter(schedule =>
-                !(schedule.user_id === userId && schedule.topic === topic && schedule.duration === duration)
-            ));
+
+            setSchedules((prevSchedules) =>
+                prevSchedules.filter(schedule =>
+                    !(schedule.topic === topic && schedule.created_at === created_at)
+                )
+            );
+
+            //console.log("After deletion:", schedules); // Check if schedules are updating
         } catch (error) {
             console.error("Error deleting study plan:", error);
         }
     };
-    
-
     if (loading) {
         return <div className="loading">Loading your study plans...</div>; // Display loading message
     }
@@ -102,17 +102,20 @@ const SavedPlans = () => {
         <div className="saved-container">
             <h2 className="page-title">Created Study Schedules</h2>
             {schedules.length === 0 ? (
-                <p className="no-schedules">No ongoing schedules available, <Link to="/generate-study-plan">Create one</Link></p>
+                <p className="no-schedules">No Schedules available, <Link to="/generate-study-plan">Create one</Link></p>
             ) : (
                 schedules.map((schedule) => (
                     <div key={schedule.id} className="schedule-box">
                         <div className="schedule-header">
                             <h3 className="capitalize"><strong>{schedule.topic}</strong></h3>
+                            <p><strong>Plan Type:</strong> {schedule.plan_type}</p>
+                            <p><strong>Created At:</strong> {new Date(schedule.created_at).toLocaleString()}</p>
+                            <p><strong>Study Mode:</strong> {schedule.study_mode}</p>
                             <div className="schedule-actions">
-                                <button className="start-btn" onClick={() => startStudying(schedule.topic,schedule.duration)}>
+                                <button className="start-btn" onClick={() => startStudying(schedule.topic, schedule.created_at)}>
                                     <strong>Start Studying</strong>
                                 </button>
-                                <button className="delete-btn" onClick={() => handleRemovePlan(schedule.topic,schedule.duration)}>
+                                <button className="delete-btn" onClick={() => handleRemovePlan(schedule.topic, schedule.created_at)}>
                                     <strong>Remove Plan</strong>
                                 </button><br />
                             </div>
@@ -120,21 +123,26 @@ const SavedPlans = () => {
                         <table className="study-table">
                             <thead>
                                 <tr>
-                                    <th>Duration</th>
+                                    <th>{schedule.plan_type === "multiple" ? "Day" : "Duration"}</th>
                                     <th>Activity</th>
                                     <th>Description</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {schedule.study_plan.map((step, index) => (
-                                    <tr key={index}> {/* Added key for child elements */}
-                                        <td>{step.Duration}</td>
+                                    <tr key={index}>
+                                        <td>
+                                            {schedule.plan_type === "multiple" ?
+                                                (step.Day ? `${step.Day}` : `Day ${index + 1}`) :
+                                                step.Duration || "N/A"}
+                                        </td>
                                         <td>{step.Activity}</td>
                                         <td>{step.Description}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
+
                     </div>
                 ))
             )}

@@ -3,6 +3,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Dashboard from "./Components/Dashboard.jsx";
 import GenerateStudyPlan from "./Components/GenerateStudyPlan";
 import LoginPage from "./Components/LoginPage.jsx";
+import ManualPlan from "./Components/ManualPlan.jsx";
 import OngoingSchedules from "./Components/OngoingSchedules.jsx";
 import ProgressTracker from "./Components/ProgressTracker.jsx";
 import ProtectedRoute from "./Components/ProtectedRoute.jsx"; // Import the ProtectedRoute component
@@ -56,6 +57,14 @@ function App() {
           element={
             <ProtectedRoute>
               <ProgressTracker />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/manual-schedule"
+          element={
+            <ProtectedRoute>
+              <ManualPlan />
             </ProtectedRoute>
           }
         />

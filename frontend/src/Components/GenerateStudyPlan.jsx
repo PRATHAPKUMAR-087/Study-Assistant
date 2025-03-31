@@ -4,6 +4,8 @@ import "../Styles/GenerateStudyPlan.css";
 
 const GenerateStudyPlan = () => {
   const [topic, setTopic] = useState("");
+  const [studyMode, setStudyMode] = useState("Concept Learning");
+  const [planType, setPlanType] = useState("single");
   const [duration, setDuration] = useState("");
   const [studyPlan, setStudyPlan] = useState([]);
   const [subtopics, setSubtopics] = useState([]);
@@ -48,35 +50,44 @@ const GenerateStudyPlan = () => {
       setError("Please select at least one subtopic and enter duration.");
       return;
     }
-
+  
     setLoading(true);
     setError("");
-
+  
     try {
       const response = await fetch("http://localhost:5000/api/generate-study-plan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic, duration, subtopics: selectedSubtopics }),
+        body: JSON.stringify({ 
+          topic, 
+          duration: parseInt(duration),  // Ensure duration is sent as an integer
+          subtopics: selectedSubtopics, 
+          planType,  // ✅ Ensure planType is sent
+          studyMode 
+        }),
       });
-
+  
       if (!response.ok) {
         throw new Error("Failed to generate study plan");
       }
-
+  
       const data = await response.json();
       setStudyPlan(data.studyPlan);
       setStep(3);
     } catch {
       setError("Failed to generate study plan. Please try again.");
     }
-
+  
     setLoading(false);
   };
+  
 
   const handleAddToSchedule = async () => {
     try {
-      const userId = sessionStorage.getItem("userUUID"); // Assuming the user's UUID is stored here
+      const userId = sessionStorage.getItem("userUUID");
   
+  
+      //console.log("User ID:", userId)
       if (!userId) {
         alert("User not logged in. Please log in first.");
         return;
@@ -85,11 +96,13 @@ const GenerateStudyPlan = () => {
       const response = await fetch("http://localhost:5000/api/save-study-plan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId, // Use userId (UUID) instead of username
-          topic,
-          duration,
-          studyPlan,
+        body: JSON.stringify({ 
+          user_id: userId,  // ✅ Match database column name
+          topic, 
+          duration: parseInt(duration),  // Ensure duration is a number
+          study_plan: JSON.stringify(studyPlan),  // ✅ Store as text in DB
+          plan_type: planType,  // ✅ Ensure planType is stored
+          study_mode: studyMode,  // ✅ If needed for retrieval
         }),
       });
   
@@ -103,9 +116,12 @@ const GenerateStudyPlan = () => {
       alert("Error: " + error.message);
     }
   };
+  
 
   const handleGenerateAnotherPlan = () => {
     setTopic("");
+    setStudyMode("Concept Learning");
+    setPlanType("single");
     setDuration("");
     setStudyPlan([]);
     setSubtopics([]);
@@ -117,8 +133,6 @@ const GenerateStudyPlan = () => {
   return (
     <div className="study-plan-container">
       <div className="study-plan-card">
-        {/* <h1>Generate Study Plan</h1> */}
-
         {error && <p className="error-message">{error}</p>}
 
         {step === 1 && (
@@ -130,6 +144,17 @@ const GenerateStudyPlan = () => {
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
             />
+            <h2>Select Study Mode:</h2>
+            <select value={studyMode} onChange={(e) => setStudyMode(e.target.value)}>
+              <option value="Concept Learning">Concept Learning</option>
+              <option value="Exam Preparation">Exam Preparation</option>
+              <option value="Balanced Learning">Balanced Learning</option>
+            </select>
+            <h2>Choose Plan Type:</h2>
+            <select value={planType} onChange={(e) => setPlanType(e.target.value)}>
+              <option value="single">Single Day Plan</option>
+              <option value="multiple">Multiple Day Plan</option>
+            </select>
             <br />
             <button onClick={handleGetSubtopics} disabled={loading}>
               {loading ? "Fetching subtopics..." : "Proceed"}
@@ -140,10 +165,10 @@ const GenerateStudyPlan = () => {
         {step === 2 && (
           <>
             <h1><b>Choose the subtopics you need to study:</b></h1><br />
-            <div className="subtopics-container" style={{ display: "flex", flexDirection: "column", gap: "10px", textAlign: "left", width: "100%", maxWidth: "600px", margin: "auto", fontSize: "1.2rem" }}>
+            <div className="subtopics-container">
               {subtopics.length > 0 ? (
                 subtopics.map((sub, index) => (
-                  <label key={index} className="d-flex align-items-center p-2 rounded" style={{ backgroundColor: "#eef2f7", cursor: "pointer", transition: "background 0.3s ease" }}>
+                  <label key={index}>
                     <input
                       type="checkbox"
                       value={sub}
@@ -152,10 +177,8 @@ const GenerateStudyPlan = () => {
                           e.target.checked ? [...prev, sub] : prev.filter((s) => s !== sub)
                         );
                       }}
-                      className="form-check-input"
-                      style={{ width: "18px", height: "18px", marginRight: "10px", cursor: "pointer" }}
                     />
-                    <span className="fw-medium text-dark">{sub}</span>
+                    {sub}
                   </label>
                 ))
               ) : (
@@ -164,7 +187,7 @@ const GenerateStudyPlan = () => {
             </div>
             <input
               type="number"
-              placeholder="Duration (hours)"
+              placeholder={planType === "single" ? "Duration (hours)" : "Duration (days)"}
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
             />
@@ -181,28 +204,28 @@ const GenerateStudyPlan = () => {
               <table className="study-plan-table">
                 <thead>
                   <tr>
-                    <th>Duration (hrs)</th>
-                    <th>Activity</th>
-                    <th>Description</th>
+                    {Object.keys(studyPlan[0]).map((header, index) => (
+                      <th key={index}>{header}</th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {studyPlan.map((item, index) => (
-                    <tr key={index}>
-                      <td>{item.Duration}</td>
-                      <td>{item.Activity}</td>
-                      <td>{item.Description}</td>
+                  {studyPlan.map((row, rowIndex) => (
+                    <tr key={rowIndex}>
+                      {Object.values(row).map((value, colIndex) => (
+                        <td key={colIndex}>{value}</td>
+                      ))}
                     </tr>
                   ))}
                 </tbody>
               </table>
             ) : (
-              <p>No study plan available</p>
+              <p>No study plan available.</p>
             )}
-            <div className="button-group">
-              <button onClick={handleAddToSchedule}>Add to Schedule</button>
-              <button onClick={handleGenerateAnotherPlan}>Generate Another Plan</button>
-            </div>
+
+            {/* <pre>{JSON.stringify(studyPlan, null, 2)}</pre> */}
+            <button onClick={handleAddToSchedule}>Add to Schedule</button>
+            <button onClick={handleGenerateAnotherPlan}>Generate Another Plan</button>
           </div>
         )}
       </div>

@@ -10,8 +10,10 @@ const {
     startStudy,
     getOngoingPlans,
     updateProgress, // Import the updateProgress function
-    completeStudy,   // Import the completeStudy function
+    completeStudy,
+    generateManualPlan,   // Import the completeStudy function
 } = require("../controllers/studyPlanController");
+const {getVideos, getSearchUrl} = require("../controllers/resourceController")
 //const authMiddleware = require("../middleware/authMiddleware");
 const router = express.Router();
 
@@ -25,5 +27,7 @@ router.put("/start-study", startStudy);
 router.get("/get-ongoing-plans", getOngoingPlans);
 router.put("/update-progress", updateProgress); // Add the update progress route
 router.put("/complete-study", completeStudy);   // Add the complete study route
+router.post("/get-search-url",getSearchUrl);
+router.post("/generate-manual-plan", generateManualPlan); 
 
 module.exports = router;

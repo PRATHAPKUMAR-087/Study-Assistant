@@ -1,0 +1,87 @@
+/* Container for the dashboard */
+.dashboard-container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+  }
+  
+  /* Grid layout for responsive cards */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  /* Card styling */
+  .dashboard-card {
+    background: rgb(250, 250, 250);
+    border: 1px solid rgb(163, 163, 163);
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  /* Hover effect */
+  .dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Icon styling */
+  .dashboard-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  .dashboard-card.hovered .dashboard-icon {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  /* Title styling */
+  .dashboard-title {
+    color: black;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+  
+  /* Button styling */
+  .dashboard-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+  }
+  
+  /* Primary button (blue) */
+  .dashboard-btn.primary {
+    background: #007bff;
+    color: white;
+  }
+  
+  .dashboard-btn.primary:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+  }
+  
+  /* Warning button (yellow) */
+  .dashboard-btn.warning {
+    background: #ffc107;
+    color: black;
+  }
+  
+  .dashboard-btn.warning:hover {
+    background: #d39e00;
+    transform: scale(1.05);
+  }
+  
