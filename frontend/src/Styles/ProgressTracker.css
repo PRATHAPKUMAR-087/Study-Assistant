@@ -18,10 +18,11 @@ body {
 
 /* Container */
 .progress-container {
-    width: 90%;
+    width: 70%;
+    height:90%;
     max-width: 800px;
-    min-width: 100vw;
-    background: white;
+    min-width: 60vw;
+    background:  white;
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -62,7 +63,7 @@ body {
     margin-bottom: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease-in-out;
-    width:50%;
+    width:100%;
     justify-content: center;
 }
 

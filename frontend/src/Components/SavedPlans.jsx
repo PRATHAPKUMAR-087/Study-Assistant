@@ -6,9 +6,9 @@ import "../Styles/SavedPlans.css";
 const SavedPlans = () => {
     const [schedules, setSchedules] = useState([]);
     const [loading, setLoading] = useState(true);  // Loading state
+    const [visibleDetails, setVisibleDetails] = useState({}); // Track visible details of each schedule
     const navigate = useNavigate();
     const userId = sessionStorage.getItem("userUUID");
-
 
     useEffect(() => {
         const fetchSchedules = async () => {
@@ -77,8 +77,6 @@ const SavedPlans = () => {
     // ✅ Handle Remove Plan
     const handleRemovePlan = async (topic, created_at) => {
         try {
-            //console.log("Before deletion:", schedules);
-
             await axios.delete("http://localhost:5000/api/delete-study-plan", {
                 data: { userId, topic, created_at }
             });
@@ -88,19 +86,26 @@ const SavedPlans = () => {
                     !(schedule.topic === topic && schedule.created_at === created_at)
                 )
             );
-
-            //console.log("After deletion:", schedules); // Check if schedules are updating
         } catch (error) {
             console.error("Error deleting study plan:", error);
         }
     };
+
+    // Toggle visibility of study plan details
+    const toggleDetailsVisibility = (id) => {
+        setVisibleDetails((prev) => ({
+            ...prev,
+            [id]: !prev[id]
+        }));
+    };
+
     if (loading) {
         return <div className="loading">Loading your study plans...</div>; // Display loading message
     }
 
     return (
         <div className="saved-container">
-            <h2 className="page-title">Created Study Schedules</h2>
+            <h1>Created Study Schedules</h1>
             {schedules.length === 0 ? (
                 <p className="no-schedules">No Schedules available, <Link to="/generate-study-plan">Create one</Link></p>
             ) : (
@@ -118,31 +123,38 @@ const SavedPlans = () => {
                                 <button className="delete-btn" onClick={() => handleRemovePlan(schedule.topic, schedule.created_at)}>
                                     <strong>Remove Plan</strong>
                                 </button><br />
+                                {/* Toggle View Details Button */}
+                                <button className = "view-button" onClick={() => toggleDetailsVisibility(schedule.id)}>
+                                    {visibleDetails[schedule.id] ? "Hide Plan" : "View Plan"}
+                                </button>
                             </div>
                         </div><br />
-                        <table className="study-table">
-                            <thead>
-                                <tr>
-                                    <th>{schedule.plan_type === "multiple" ? "Day" : "Duration"}</th>
-                                    <th>Activity</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {schedule.study_plan.map((step, index) => (
-                                    <tr key={index}>
-                                        <td>
-                                            {schedule.plan_type === "multiple" ?
-                                                (step.Day ? `${step.Day}` : `Day ${index + 1}`) :
-                                                step.Duration || "N/A"}
-                                        </td>
-                                        <td>{step.Activity}</td>
-                                        <td>{step.Description}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
 
+                        {/* Conditional Rendering of Study Plan Details */}
+                        {visibleDetails[schedule.id] && (
+                            <table className="study-table">
+                                <thead>
+                                    <tr>
+                                        <th>{schedule.plan_type === "multiple" ? "Day" : "Duration"}</th>
+                                        <th>Activity</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {schedule.study_plan.map((step, index) => (
+                                        <tr key={index}>
+                                            <td>
+                                                {schedule.plan_type === "multiple" ? 
+                                                    (step.Day ? `${step.Day}` : `Day ${index + 1}`) : 
+                                                    step.Duration || "N/A"}
+                                            </td>
+                                            <td>{step.Activity}</td>
+                                            <td>{step.Description}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
                     </div>
                 ))
             )}

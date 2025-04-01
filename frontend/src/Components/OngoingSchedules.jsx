@@ -6,6 +6,8 @@ const OngoingSchedules = () => {
     const [schedules, setSchedules] = useState([]);
     const [loading, setLoading] = useState(true);
     const userId = sessionStorage.getItem("userUUID");
+    const [visibleDetails, setVisibleDetails] = useState({});
+
 
     useEffect(() => {
         const fetchSchedules = async () => {
@@ -35,7 +37,13 @@ const OngoingSchedules = () => {
 
         fetchSchedules();
     }, []);
-
+    const toggleDetails = (topic, createdAt) => {
+        setVisibleDetails((prevDetails) => ({
+            ...prevDetails,
+            [`${topic}-${createdAt}`]: !prevDetails[`${topic}-${createdAt}`],  // Toggle visibility
+        }));
+    };
+    
     const handleCheckboxChange = async (userId, topic, stepIndex) => {
         setSchedules((prevSchedules) =>
             prevSchedules.map((schedule) =>
@@ -85,7 +93,7 @@ const OngoingSchedules = () => {
 
     return (
         <div className="ongoing-container">
-            <h2 className="page-title">Ongoing Study Schedules</h2>
+            <h1>Ongoing Study Schedules</h1>
             {schedules.length === 0 ? (
                 <p className="no-schedules">No ongoing schedules available.</p>
             ) : (
@@ -93,11 +101,26 @@ const OngoingSchedules = () => {
                     <div key={`${schedule.user_id}-${schedule.topic}-${schedule.created_at}`} className="schedule-box">
                         <div className="schedule-header">
                             <h3 className="capitalize"><strong>{schedule.topic}</strong></h3>
-                            <p><strong>Plan Type:</strong> {schedule.plan_type}</p>
-                            <p><strong>Created On:</strong> {new Date(schedule.created_at).toLocaleString()}</p>
-                            <p><strong>Study Mode:</strong> {schedule.study_mode}</p>
+                            
+                            {/* View Plan Details Button */}
+                            <button 
+                                className="view-details-btn" 
+                                onClick={() => toggleDetails(schedule.topic, schedule.created_at)}
+                            >
+                                {visibleDetails[`${schedule.topic}-${schedule.created_at}`] ? "Hide Plan Details" : "View Plan Details"}
+                            </button>
+                            
+                            {/* Conditionally render plan details */}
+                            {visibleDetails[`${schedule.topic}-${schedule.created_at}`] && (
+                                <div className="plan-details">
+                                    <p><strong>Plan Type:</strong> {schedule.plan_type}</p>
+                                    <p><strong>Created On:</strong> {new Date(schedule.created_at).toLocaleString()}</p>
+                                    <p><strong>Study Mode:</strong> {schedule.study_mode}</p>
+                                </div>
+                            )}
                         </div>
                         
+                        {/* Table for the study plan */}
                         <table className="study-table">
                             <thead>
                                 <tr>
@@ -131,7 +154,8 @@ const OngoingSchedules = () => {
                                 ))}
                             </tbody>
                         </table>
-
+    
+                        {/* Mark as completed button */}
                         {schedule.completed_steps.length === schedule.study_plan.length && (
                             <button className="complete-btn" onClick={() => markAsCompleted(schedule.user_id, schedule.topic, schedule.created_at)}>
                                 Mark as Completed
@@ -142,6 +166,7 @@ const OngoingSchedules = () => {
             )}
         </div>
     );
+    
 };
 
 export default OngoingSchedules;

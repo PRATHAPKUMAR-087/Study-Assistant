@@ -31,7 +31,25 @@ root{
     position: relative;
     transition: 0.3s;
   }
-  
+  /* OngoingSchedules.css */
+
+/* View Details Button Styled as Link */
+.view-details-btn {
+    background: none;
+    color: #2196F3; /* Blue color for link effect */
+    border: none;
+    padding: 0;
+    font-size: 1rem;
+    text-decoration: underline; /* Adds the underscore (underline) */
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.view-details-btn:hover {
+    color: #1976D2; /* Darker blue on hover */
+    text-decoration: none; /* Removes underline on hover */
+}
+
   /* Checked state */
   .custom-checkbox input:checked + .checkmark {
     background-color: #4caf50; /* Green when checked */

@@ -57,8 +57,10 @@ const ProgressTracker = () => {
     }
 
     return (
+        <>
         <div className="progress-container">
-            <h2 className="page-title">📊 Study Progress Tracker</h2>
+        <h1>Your Progress So Far</h1>
+            
             {schedules.length === 0 ? (
                 <p className="no-progress">No progress data available.</p>
             ) : (
@@ -101,6 +103,7 @@ const ProgressTracker = () => {
                 })
             )}
         </div>
+        </>
     );
 };
 

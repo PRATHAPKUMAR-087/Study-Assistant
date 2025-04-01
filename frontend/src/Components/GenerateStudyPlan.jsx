@@ -144,13 +144,13 @@ const GenerateStudyPlan = () => {
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
             />
-            <h2>Select Study Mode:</h2>
+            <h2><b>Select Study Mode:</b></h2>
             <select value={studyMode} onChange={(e) => setStudyMode(e.target.value)}>
-              <option value="Concept Learning">Concept Learning</option>
-              <option value="Exam Preparation">Exam Preparation</option>
-              <option value="Balanced Learning">Balanced Learning</option>
+              <option value="Concept Learning">Concept Learning (More theory)</option>
+              <option value="Exam Preparation">Exam Preparation (More problem-solving) </option>
+              <option value="Balanced Learning">Balanced Learning (Mix of both)</option>
             </select>
-            <h2>Choose Plan Type:</h2>
+            <h2><b>Choose Plan Type:</b></h2>
             <select value={planType} onChange={(e) => setPlanType(e.target.value)}>
               <option value="single">Single Day Plan</option>
               <option value="multiple">Multiple Day Plan</option>
@@ -168,7 +168,7 @@ const GenerateStudyPlan = () => {
             <div className="subtopics-container">
               {subtopics.length > 0 ? (
                 subtopics.map((sub, index) => (
-                  <label key={index}>
+                  <label className="subtopic-label" key={index}>
                     <input
                       type="checkbox"
                       value={sub}

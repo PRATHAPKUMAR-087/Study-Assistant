@@ -1,0 +1,171 @@
+/* General Styling */
+.study-plan-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100vw;
+    max-width: 1600px;
+    background:  #e3f2fd;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* Card Styling */
+.study-plan-card {
+    background: #bbdefb;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+    overflow-y: auto;
+    max-height: 100vh;
+}
+
+/* Error Message */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/* Input Fields */
+.study-plan-container input,
+.study-plan-container select {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.1em;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus state for inputs and selects */
+.study-plan-container input:focus,
+.study-plan-container select:focus {
+    border-color: #1976d2;
+    outline: none;
+    box-shadow: 0px 0px 10px rgba(25, 118, 210, 0.5);
+}
+
+/* Buttons */
+.study-plan-container button {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    margin-top: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.study-plan-container button:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+}
+
+.study-plan-container button:active {
+    background-color: #004494;
+    transform: translateY(1px);
+}
+
+/* Success Button */
+.study-plan-container .success-btn {
+    background-color: #28a745;
+}
+
+.study-plan-container .success-btn:hover {
+    background-color: #218838;
+}
+
+/* Study Plan Table */
+.study-plan-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    overflow-x: auto;
+}
+
+.study-plan-table th, .study-plan-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.study-plan-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.study-plan-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .study-plan-container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .study-plan-container button {
+        max-width: 100%;
+    }
+
+    .study-plan-table {
+        font-size: 0.9em;
+    }
+}
+
+/* Step-specific Styles */
+.step-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.step-content button {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 10px;
+}
+
+/* Styling for Select dropdowns */
+.study-plan-container select {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.1em;
+    background-color: white;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus styling for Select dropdown */
+.study-plan-container select:focus {
+    border-color: #1976d2;
+    outline: none;
+    box-shadow: 0px 0px 10px rgba(25, 118, 210, 0.5);
+}
+
+/* Placeholder Text Styling */
+.study-plan-container input::placeholder,
+.study-plan-container select::placeholder {
+    font-style: italic;
+    color: #999;
+}

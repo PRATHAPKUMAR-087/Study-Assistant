@@ -15,7 +15,7 @@ body, html {
     min-height: 100vh;
     width: 100vw;
     max-width: 1600px;
-    background:  #e3f2fd;
+    background: #e3f2fd;
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
@@ -46,12 +46,11 @@ body, html {
 /* Card Styling */
 .study-plan-card {
     background: #bbdefb;
-    /*background: linear-gradient(135deg, #e3f2fd, #bbdefb); /* Light blue gradient */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     max-width: 1600px;
     text-align: center;
     overflow-y: auto;
@@ -98,7 +97,33 @@ body, html {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-.button-group{
+/* Styling for select dropdown */
+.study-plan-container select {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.1em;
+    background-color: white;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus state for select dropdown */
+.study-plan-container select:focus {
+    border-color: #1976d2;
+    outline: none;
+    box-shadow: 0px 0px 10px rgba(25, 118, 210, 0.5);
+}
+
+/* Styling for option elements */
+.study-plan-container select option {
+    font-size: 1em;
+    padding: 10px;
+}
+
+.button-group {
     display: inline;
     justify-content: center;
     gap: 20px;
@@ -117,6 +142,7 @@ body, html {
 .success-btn {
     background-color: #28a745;
 }
+
 .success-btn:hover {
     background-color: #218838;
 }
@@ -124,6 +150,7 @@ body, html {
 .reset-btn {
     background-color: #dc3545;
 }
+
 .reset-btn:hover {
     background-color: #c82333;
 }
@@ -173,12 +200,10 @@ body, html {
     display: flex;
     align-items: center;
     gap: 12px; /* Space between checkbox and text */
-    background: #eef2f7;
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s ease;
-    width: fit-content;
 }
 
 .subtopic-label:hover {

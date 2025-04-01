@@ -25,6 +25,39 @@
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   }
   
+  .rye-regular {
+    font-family: "Rye", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .typing {
+    font-family: 'Merriweather', serif;
+    font-weight: 400;
+    font-size: 32px;
+    color: blue;
+    white-space: nowrap;
+    overflow: hidden;
+    /*border-right: 3px solid #000;  /* Simulates the cursor */
+    width: 0;  /* Start with no width */
+    animation: typing 2s steps(30) 1s forwards, blink 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
   /* Hover effect */
   .dashboard-card:hover {
     transform: translateY(-5px);

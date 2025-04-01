@@ -71,8 +71,8 @@ const ManualPlan = () => {
 
         {step === 1 && (
           <>
-            <h1>Create Manual Study Plan</h1>
             <form onSubmit={handleSubmit}>
+              <h4><b>Enter Subject:</b></h4>
               <input
                 type="text"
                 name="subject"
@@ -80,7 +80,8 @@ const ManualPlan = () => {
                 onChange={handleChange}
                 placeholder="Subject or Topic"
                 required
-              />
+              /><br />
+              <h4><b>Enter All the Sub-topics:</b></h4>
               <input
                 type="text"
                 name="subTopics"
@@ -88,11 +89,13 @@ const ManualPlan = () => {
                 onChange={handleChange}
                 placeholder="Sub-topics (separated by hyphen)"
                 required
-              />
+              /><br />
+              <h4><b>Choose Plan Type:</b></h4>
               <select name="planType" value={formData.planType} onChange={handleChange}>
                 <option value="single">Single Day</option>
                 <option value="multiple">Multiple Day</option>
-              </select>
+              </select><br />
+              <h4><b>Enter Duration:</b></h4>
               <input
                 type="number"
                 name="duration"
@@ -100,12 +103,13 @@ const ManualPlan = () => {
                 onChange={handleChange}
                 placeholder={formData.planType === "single-day" ? "Duration (hours)" : "Duration (days)"}
                 required
-              />
+              /><br />
+              <h4><b>Select Study Mode:</b></h4>
               <select name="studyMode" value={formData.studyMode} onChange={handleChange}>
                 <option value="Balanced Learning">Balanced Learning</option>
                 <option value="Concept Learning">Concept Learning</option>
                 <option value="Exam Preparation">Exam Preparation</option>
-              </select>
+              </select><br />
               <button type="submit" disabled={loading}>{loading ? "Generating..." : "Generate Study Plan"}</button>
             </form>
           </>

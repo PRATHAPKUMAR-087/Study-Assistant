@@ -12,7 +12,7 @@ const WelcomePage = () => {
       </header>
 
       <div className="container">
-        <h1>Welcome to Virtual Study Assistant</h1>
+        <h1 className="carter-one-regular">Welcome to Virtual Study Assistant</h1>
         <p>Your personalized study assistant</p>
         <div className="button-container">
           <a href="/register" className="button">Register if New User</a>
