@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BarChart, BookOpen, Clock, Home, ListChecks, LogOut, Menu, Moon, Settings, Sun, User } from "lucide-react";
+import { BarChart, BookOpen, Clock, Home, ListChecks, LogOut, Menu, Settings, User } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Styles/Dashboard.css";
@@ -48,7 +48,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className={`d-flex ${darkMode ? "bg-dark text-white" : "bg-light text-dark"}`} style={{ minHeight: "100vh", overflowX: "hidden", width: "100vw" }}>
+    <div className={`d-flex`} style={{ minHeight: "100vh", overflowX: "hidden", width: "100vw" }}>
       {/* Sidebar */}
       <nav className={`bg-primary text-white position-fixed top-0 start-0 p-4`} style={{ width: sidebarOpen ? "250px" : "0", height: "100vh", zIndex: 1000, transition: "width 0.3s ease-in-out", overflow: "hidden", visibility: sidebarOpen ? "visible" : "hidden" }}>
         <button className="btn btn-light mb-3 w-30" onClick={() => setSidebarOpen(false)}><Menu /></button>
@@ -71,22 +71,34 @@ export default function Dashboard() {
       <div className="flex-grow-1" style={{ marginLeft: sidebarOpen ? "250px" : "0px", transition: "margin 0.3s ease-in-out" }}>
         {/* Header */}
         <header className="d-flex justify-content-between align-items-center p-3 shadow bg-blue">
-          <div className="d-flex align-items-center gap-3">
+          <div className="d-flex align-items-center gap-3 ">
             {!sidebarOpen && <button className="btn btn-primary" onClick={() => setSidebarOpen(true)}><Menu /></button>}
-            <h1 className="fs-1 fw-bold m-0 ms-3 text-capitalize typing" style={{ fontFamily: 'Merriweather, serif', fontWeight: '400', fontSize: '32px', color:'darkblue'}}>Welcome Back, {username}! Let's Study 🎓</h1>
+            <h1 className="fs-1 fw-bold m-0 ms-3 text-capitalize text-wrap" style={{ fontFamily: 'Merriweather, serif', fontWeight: '400', fontSize: '32px', color:'darkblue'}}>Welcome Back, {username}! Let's Study 🎓</h1>
           </div>
           <div className="d-flex align-items-center gap-3 position-relative">
             <button className="btn btn-outline-secondary" onClick={() => setDropdownOpen(!dropdownOpen)}><User className="text-primary" /></button>
-            <button className="btn btn-outline-secondary" onClick={() => setDarkMode(!darkMode)}>{darkMode ? <Sun className="text-warning" /> : <Moon className="text-dark" />}</button>
+            {/* <button className="btn btn-outline-secondary" onClick={() => setDarkMode(!darkMode)}>{darkMode ? <Sun className="text-warning" /> : <Moon className="text-dark" />}</button> */}
             {dropdownOpen && (
-              <div className="position-absolute mt-2 bg-white shadow rounded p-2" style={{ zIndex: 1050, minWidth: "180px", top: "100%", left: "0" }}>
-                <ul className="list-unstyled m-0">
-                  <li className="py-2 px-3 cursor-pointer d-flex align-items-center" ><button className="btn btn-light mb-3 w-100">Profile</button></li>
-                  <li className="py-2 px-3 cursor-pointer d-flex align-items-center"><button className="btn btn-light mb-3 w-100">Settings</button></li>
-                  <li className="py-2 px-3 cursor-pointer d-flex align-items-center" onClick={handleLogout}><button className="btn btn-light mb-3 w-100 text-danger"><LogOut className="me-2" /> Logout</button></li>
-                </ul>
-              </div>
-            )}
+  <div className="position-absolute mt-2 bg-white shadow rounded p-2" 
+  style={{ zIndex: 1050, minWidth: "200px", top: "100%", right: "0", whiteSpace: "nowrap" }}>
+
+    <ul className="list-unstyled m-0">
+      <li className="py-2 px-3 cursor-pointer d-flex align-items-center">
+        <button className="btn btn-light w-100">Profile</button>
+      </li>
+      <li className="py-2 px-3 cursor-pointer d-flex align-items-center">
+        <button className="btn btn-light w-100">Settings</button>
+      </li>
+      <li className="py-2 px-3 cursor-pointer d-flex align-items-center" onClick={handleLogout}>
+        <button className="btn btn-light w-100 text-danger">
+          <LogOut className="me-2" /> Logout
+        </button>
+      </li>
+    </ul>
+  </div>
+)}
+
+
           </div>
         </header>
 
@@ -94,7 +106,7 @@ export default function Dashboard() {
         <main className="container-fluid mt-4">
           <div className="row g-4 justify-content-center align-items-stretch h-100">
             {cardData.map((card, index) => (
-              <div key={index} className="col-lg-4 col-md-6 col-12 d-flex">
+              <div key={index} className="col-lg-4 col-md-6 col-sm-12 d-flex">
                 <div className="card border-0 shadow p-4 text-center rounded-4 d-flex flex-column w-100" style={{ minHeight: "250px" }}>
                   <h2 className="fs-2 flex-grow-1" style={{ fontFamily: 'Merriweather, serif', fontWeight: '500', fontSize: '32px' }}>{card.title}</h2>
                   <i className={`bi ${card.icon} mb-3 ${card.color}`} style={{ fontSize: "4rem" }}></i> {/* Bootstrap icon */}
