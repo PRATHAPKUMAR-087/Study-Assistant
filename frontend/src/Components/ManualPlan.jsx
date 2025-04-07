@@ -143,6 +143,7 @@ const ManualPlan = () => {
             <button onClick={handleAddToSchedule}>Add to Schedule</button>
             <button onClick={() => setStep(1)}>Generate Another Plan</button>
           </div>
+          
         )}
       </div>
     </div>

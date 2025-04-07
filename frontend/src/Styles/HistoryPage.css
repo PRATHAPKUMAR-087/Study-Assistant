@@ -1,0 +1,50 @@
+/* Wrapper for the history section */
+.history-wrapper {
+    width: 90vw;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Responsive table styling */
+  .history-table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto;
+    border: 2px solid #ccc; 
+    border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;/* Adds border around the table */
+  }
+  
+  /* Header styles */
+  .history-table thead {
+    padding:20px;
+    margin: 20px;
+    background-color: #8fc0d8;
+    color: white;
+  }
+  
+  /* Row hover effect */
+  .history-table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Status styling */
+  .status-completed {
+    color: green;
+    font-style: italic;
+    font-weight: 500;
+  }
+  
+  .status-pending {
+    color: red;
+    font-style: italic;
+    font-weight: 500;
+  }
+  
+  .status-ongoing {
+    color: orange;
+    font-style: italic;
+    font-weight: 500;
+  }
+  

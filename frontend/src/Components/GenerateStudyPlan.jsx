@@ -86,8 +86,6 @@ const GenerateStudyPlan = () => {
     try {
       const userId = sessionStorage.getItem("userUUID");
   
-  
-      //console.log("User ID:", userId)
       if (!userId) {
         alert("User not logged in. Please log in first.");
         return;
@@ -97,12 +95,13 @@ const GenerateStudyPlan = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
-          user_id: userId,  // ✅ Match database column name
+          user_id: userId,
           topic, 
-          duration: parseInt(duration),  // Ensure duration is a number
-          study_plan: JSON.stringify(studyPlan),  // ✅ Store as text in DB
-          plan_type: planType,  // ✅ Ensure planType is stored
-          study_mode: studyMode,  // ✅ If needed for retrieval
+          duration: parseInt(duration),
+          study_plan: JSON.stringify(studyPlan),
+          plan_type: planType,
+          study_mode: studyMode,
+          subtopics: JSON.stringify(selectedSubtopics), // ✅ Store subtopics as JSON string
         }),
       });
   
@@ -115,9 +114,7 @@ const GenerateStudyPlan = () => {
     } catch (error) {
       alert("Error: " + error.message);
     }
-  };
-  
-
+  };  
   const handleGenerateAnotherPlan = () => {
     setTopic("");
     setStudyMode("Concept Learning");
@@ -230,6 +227,7 @@ const GenerateStudyPlan = () => {
         )}
       </div>
     </div>
+    
   );
 };
 

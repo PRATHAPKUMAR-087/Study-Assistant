@@ -1,11 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../Styles/ProgressTracker.css"; // Ensure the styles are imported
 
 const ProgressTracker = () => {
     const [schedules, setSchedules] = useState([]);
     const [loading, setLoading] = useState(true);
     const userId = sessionStorage.getItem("userUUID");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchSchedules = async () => {

@@ -1,5 +1,6 @@
 // controllers/studyPlanController.js
 const db = require("../config/db");
+const { get } = require("../routes/authRoutes");
 const { parseMarkdownTable } = require("../utils/parseMarkdown");
 const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const API_KEY = "wuOSFtMwGb25ITwo0DdRCOFoa99gxhN3";
@@ -7,30 +8,26 @@ const API_URL = "https://api.mistral.ai/v1/chat/completions";
 
 // ✅Function to save a study plan to the database
 const saveStudyPlan = (req, res) => {
-    //console.log("Received Data:", req.body);
+    const { user_id, topic, duration, study_plan, plan_type, study_mode, subtopics } = req.body;
 
-    const { user_id, topic, duration, study_plan, plan_type, study_mode } = req.body;
-
-    // 🔴 Check for undefined, null, or empty values
+    // 🔍 Validation checks
     if (
-        user_id === undefined || user_id === null || user_id === "" ||
-        topic === undefined || topic === null || topic === "" ||
-        duration === undefined || duration === null || isNaN(duration) ||
-        study_plan === undefined || study_plan === null || study_plan === "" ||
-        plan_type === undefined || plan_type === null || plan_type === "" ||
-        study_mode === undefined || study_mode === null || study_mode === ""
+        !user_id || !topic || !duration || isNaN(duration) ||
+        !study_plan || !plan_type || !study_mode || !subtopics
     ) {
         console.error("Missing required fields:", req.body);
         return res.status(400).json({ error: "Missing required fields" });
     }
 
     const studyPlanText = JSON.stringify(study_plan);
+    const subtopicsText = JSON.stringify(subtopics); // 🔥 Convert array to string for DB
 
     const query = `
-    INSERT INTO study_plans (user_id, topic, duration, study_plan, plan_type, study_mode, status) 
-    VALUES (?, ?, ?, ?, ?, ?, 'pending')`;
+        INSERT INTO study_plans (user_id, topic, duration, study_plan, plan_type, study_mode, subtopics, status) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')
+    `;
 
-    db.query(query, [user_id, topic, duration, studyPlanText, plan_type, study_mode], (err, result) => {
+    db.query(query, [user_id, topic, duration, studyPlanText, plan_type, study_mode, subtopicsText], (err, result) => {
         if (err) {
             console.error('Error inserting study plan:', err);
             return res.status(500).json({ error: 'Database error', details: err.message });
@@ -212,7 +209,7 @@ const getOngoingPlans = async (req, res) => {
     }
 
     const sql = `
-        SELECT user_id, topic, duration, study_plan, completed_steps, plan_type, study_mode, created_at 
+        SELECT user_id, topic, duration, study_plan, completed_steps, plan_type, study_mode, subtopics, created_at 
         FROM study_plans 
         WHERE status = 'ongoing' AND user_id = ?
     `;
@@ -357,6 +354,48 @@ const generateManualPlan = async (req, res) => {
     }
 };
 
+const getAllPlans = async (req, res) => {
+    const { userId } = req.query;
+
+    if (!userId) {
+        return res.status(400).json({ error: "Missing userId parameter" });
+    }
+
+    const sql = `
+        SELECT user_id, topic, duration, study_plan, completed_steps, plan_type, study_mode, status, created_at 
+        FROM study_plans 
+        WHERE user_id = ?
+    `;
+
+    db.query(sql, [userId], (err, result) => {
+        if (err) {
+            console.error("Error fetching plans:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+
+        const processedData = result.map((item) => ({
+            ...item,
+            study_plan: (() => {
+                try {
+                    return JSON.parse(item.study_plan);
+                } catch {
+                    return [];
+                }
+            })(),
+            completed_steps: (() => {
+                try {
+                    return item.completed_steps ? JSON.parse(item.completed_steps) : [];
+                } catch {
+                    return [];
+                }
+            })(),
+        }));
+
+        res.json(processedData);
+    });
+};
+
+
 module.exports = {
     saveStudyPlan,
     getStudyPlans,
@@ -368,5 +407,6 @@ module.exports = {
     updateProgress,
     completeStudy,
     generateManualPlan,
+    getAllPlans,
     // Add other functions here...
 };

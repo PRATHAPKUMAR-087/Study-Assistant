@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BarChart, BookOpen, Clock, Home, ListChecks, LogOut, Menu, Settings, User } from "lucide-react";
+import { BarChart, BookOpen, Clock, ListChecks, LogOut, Menu, Settings, User } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Styles/Dashboard.css";
@@ -11,6 +11,7 @@ const cardData = [
   { title: "Your Progress Tracker", btnText: "See Progress", link: "/progress-tracker", icon: "bi-graph-up", color: "text-success" },
   { title: "View Saved Plans", btnText: "Created Schedules", link: "/saved-plans", icon: "bi-clipboard-check", color: "text-info" },
   { title: "View Ongoing Schedules", btnText: "Current Schedules", link: "/ongoing-schedules", icon: "bi-calendar-check", color: "text-dark" },
+  { title: "Get Study Resources", btnText: "Saved Resources", link: "/study-resources", icon: "bi-calendar-check", color: "text-dark" },
 ];
 
 export default function Dashboard() {
@@ -53,8 +54,8 @@ export default function Dashboard() {
       <nav className={`bg-primary text-white position-fixed top-0 start-0 p-4`} style={{ width: sidebarOpen ? "250px" : "0", height: "100vh", zIndex: 1000, transition: "width 0.3s ease-in-out", overflow: "hidden", visibility: sidebarOpen ? "visible" : "hidden" }}>
         <button className="btn btn-light mb-3 w-30" onClick={() => setSidebarOpen(false)}><Menu /></button>
         <ul className="list-unstyled">
-          <li className="py-3 border-bottom cursor-pointer d-flex align-items-center gap-2" onclick={() => navigate("/dashboard")}><button className="btn btn-light mb-3 w-100"><Home /> Home</button></li>
           <li className="py-3 border-bottom cursor-pointer d-flex align-items-center gap-2" onClick={() => navigate("/saved-plans")}><button className="btn btn-light mb-3 w-100"><BookOpen /> Study Plans</button></li>
+          <li className="py-3 border-bottom cursor-pointer d-flex align-items-center gap-2" onClick={() => navigate("/history-page")}><button className="btn btn-light mb-3 w-100"><Clock /> History</button></li>
           <li className="py-3 border-bottom cursor-pointer d-flex align-items-center gap-2" ><button className="btn btn-light mb-3 w-100"><Clock /> Reminders</button></li>
           <li className="py-3 border-bottom cursor-pointer d-flex align-items-center gap-2" onClick={() => navigate("/progress-tracker")}><button className="btn btn-light mb-3 w-100"><BarChart /> Progress Tracker</button></li>
           <li className="py-3 border-bottom cursor-pointer d-flex align-items-center gap-2" onClick={() => navigate("/ongoing-schedules")}><button className="btn btn-light mb-3 w-100"><ListChecks /> Ongoing Schedules</button></li>
