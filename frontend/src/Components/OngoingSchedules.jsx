@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import { useNavigate } from "react-router-dom";
 import "../Styles/OngoingSchedules.css";
 
 const OngoingSchedules = () => {
@@ -9,6 +11,7 @@ const OngoingSchedules = () => {
     const [selectedResources, setSelectedResources] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
     const userId = sessionStorage.getItem("userUUID");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchSchedules = async () => {
@@ -82,11 +85,22 @@ const OngoingSchedules = () => {
                     topic: schedule.topic,
                     created_at: schedule.created_at,
                 },
+                validateStatus: (status) => status < 500 // treat 404 as a valid response
             });
-
-            setSelectedResources(response.data);
-            console.log("Selected resources:", response.data);
-
+    
+            const data = response.data;
+    
+            if (!data || data.length === 0 || response.status === 404) {
+                const confirmRedirect = window.confirm(
+                    "⚠️ No resources found for this topic. Do you want to generate resources now?"
+                );
+                if (confirmRedirect) {
+                    navigate("/study-resources");
+                }
+                return;
+            }
+    
+            setSelectedResources(data);
             setShowPopup(true);
         } catch (error) {
             console.error("Error fetching saved resources:", error);
@@ -184,64 +198,66 @@ const OngoingSchedules = () => {
 {showPopup && selectedResources && (
   <div className="popup-overlay">
     <div className="popup-content">
-      <h3 className="text-xl font-semibold justify-center mb-4">📚 Saved Resources</h3>
+      <h3 className="popup-title">📚 Saved Resources</h3>
 
       {selectedResources.map((resource, index) => {
         const { resource_type, subtopic, content } = resource;
 
         return (
-          <div key={index} className="mb-6 border-b pb-4">
-            <p className="text-lg font-medium mb-1">📌 <span className="font-semibold">Subtopic:</span> {subtopic}</p>
-            <p className="text-sm text-gray-700 mb-2">🧠 <span className="font-medium">Type:</span> {resource_type}</p>
+          <div key={index} className="resource-block">
+            <p className="subtopic-text">📌 <strong>Subtopic:</strong> {subtopic}</p>
+            {/* <p className="type-text capitalize">🧠 <strong>Type:</strong> {resource_type}</p> */}
 
             {resource_type === "explanation" && (
-              <div className="bg-gray-100 p-3 rounded text-gray-800 text-sm whitespace-pre-wrap">
-                {content}
+              <div className="explanation-box">
+               <ReactMarkdown
+  components={{
+    ol: ({ node, ...props }) => <div {...props} />, // disables <ol>
+    ul: ({ node, ...props }) => <div {...props} />, // disables <ul>
+    li: ({ node, ...props }) => <div {...props} />, // disables <li>
+  }}
+>
+  {content}
+</ReactMarkdown>
               </div>
             )}
 
-{Array.isArray(content) && content.length > 0 && (
-  <div className="mt-2">
-    <p className="font-medium text-gray-800">🔗 Resources:</p>
-    <ul className="list-disc pl-6 text-blue-600 text-sm">
-      {content.map((item, idx) => {
-        const url = typeof item === "string" ? item : item.url;
-        const title =
-          typeof item === "string"
-            ? (item.includes("youtube.com") ? "🎥 YouTube Video" : url)
-            : item.title || (url.includes("youtube.com") ? "🎥 YouTube Video" : url);
+            {Array.isArray(content) && content.length > 0 && (
+              <div className="resource-links-section">
+                <p className="resource-heading">🔗 Resources:</p>
+                <ul className="resource-list no-bullets" style={{ listStyleType: "none", paddingLeft: 0 }}>
+                  {content.map((item, idx) => {
+                    const url = typeof item === "string" ? item : item.url;
+                    const title =
+                      typeof item === "string"
+                        ? (item.includes("youtube.com") ? "🎥 YouTube Video" : url)
+                        : item.title || (url.includes("youtube.com") ? "🎥 YouTube Video" : url);
 
-        return (
-          <li key={idx}>
-            <a href={url} target="_blank" rel="noreferrer" className="hover:underline">
-              {title}
-            </a>
-          </li>
-        );
-      })}
-    </ul>
-  </div>
-)}
-
-
+                    return (
+                      <li key={idx}>
+                        <a href={url} target="_blank" rel="noreferrer" className="resource-link">
+                        {url.includes("youtube.com") ? "🎥 " : "📎 "}
+                          {title}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
           </div>
         );
       })}
 
-<div className="flex justify-center mt-6">
-  <button
-    className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded w-[200px] text-center"
-    onClick={() => setShowPopup(false)}
-  >
-    ❌ Close
-  </button>
-</div>
-
-
-
+      <div className="popup-footer">
+        <button className="popup-close-btn" onClick={() => setShowPopup(false)}>
+          ❌ Close
+        </button>
+      </div>
     </div>
   </div>
 )}
+
 
         </div>
     );
