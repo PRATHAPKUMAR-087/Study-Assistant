@@ -8,7 +8,7 @@ const StudyResources = () => {
     const [resources, setResources] = useState({});
     const [showPopup, setShowPopup] = useState(false);
     const [loadingResources, setLoadingResources] = useState(false);
-    const [lastGeneratedType, setLastGeneratedType] = useState(""); // ✅ Track selected type
+    const [lastGeneratedType, setLastGeneratedType] = useState("");
 
     const userId = sessionStorage.getItem("userUUID");
 
@@ -71,17 +71,17 @@ const StudyResources = () => {
                 }
             }));
 
-            setLastGeneratedType(resourceType); // ✅ Store selected type
+            setLastGeneratedType(resourceType);
         } catch (err) {
             console.error("❌ Error fetching resources:", err);
         } finally {
             setLoadingResources(false);
-            setShowPopup(false);
         }
     };
 
     const handleResourceTypeSelect = (type) => {
-        fetchResources(type);
+        setShowPopup(false); // ✅ Close popup immediately
+        fetchResources(type); // Start loading
     };
 
     const handleSaveResources = async () => {
@@ -148,11 +148,11 @@ const StudyResources = () => {
 
     return (
         <div className="resources-container">
-            <h2>📚 Study Resources</h2>
+            <h1>📚 Study Resources</h1>
 
             {!selectedPlan ? (
                 <>
-                    <h3>Select a Plan to View Resources</h3>
+                    <h3>Select a Plan to Generate and Save Resources</h3>
                     <div className="plan-card-container">
                         {plans.map((plan, index) => (
                             <div
@@ -160,9 +160,11 @@ const StudyResources = () => {
                                 className="plan-card"
                                 onClick={() => setSelectedPlan(plan)}
                             >
-                                <h4>{plan.topic.charAt(0).toUpperCase() + plan.topic.slice(1)}</h4>
+                                <h3>{plan.topic.charAt(0).toUpperCase() + plan.topic.slice(1)}</h3>
                                 <p><strong>Created On:</strong> {new Date(plan.created_at).toLocaleDateString()}</p>
                                 <p><strong>Duration:</strong> {plan.duration} days</p>
+                                <p><strong>Study Mode:</strong> {plan.study_mode}</p>
+                                <p><strong>Plan Type:</strong> {plan.plan_type}</p>
                             </div>
                         ))}
                     </div>
@@ -176,7 +178,7 @@ const StudyResources = () => {
                         <p><strong>Study Mode:</strong> {selectedPlan.study_mode}</p>
                         <p><strong>Plan Type:</strong> {selectedPlan.plan_type}</p>
                         <p><strong>Subtopics:</strong> {renderSubtopics()}</p>
-                        <button onClick={() => setSelectedPlan(null)}>⬅️ Back to Plan List</button>
+                        <button className="back-btn" onClick={() => setSelectedPlan(null)}>⬅️ Back to Plan List</button>
                     </div>
 
                     <div className="actions">
@@ -186,38 +188,38 @@ const StudyResources = () => {
                         </button>
                     </div>
 
-                    {currentResources && (
+                    {loadingResources ? (
+                        <div className="generated-resources">
+                            <h3>Generating resources...</h3>
+                        </div>
+                    ) : currentResources && (
                         <div className="generated-resources">
                             <h3>Generated Resources</h3>
-                            {loadingResources ? (
-                                <p>Loading...</p>
-                            ) : (
-                                Object.entries(currentResources).map(([type, data]) => (
-                                    <div key={type} className="resource-block">
-                                        <h4>🔹 {type.charAt(0).toUpperCase() + type.slice(1)}</h4>
-                                        {Object.entries(data).map(([sub, content]) => (
-                                            <div key={sub}>
-                                                <p><strong>Sub-topic:</strong> {sub}</p>
-                                                {type === "notes" && <p>{content.explanation}</p>}
-                                                {type === "articles" && (
-                                                    <ul>
-                                                        {content.suggestions.map((url, idx) => (
-                                                            <li key={idx}><a href={url} target="_blank" rel="noreferrer">{url}</a></li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                                {type === "videos" && (
-                                                    <ul>
-                                                        {content.videos.map((video, idx) => (
-                                                            <li key={idx}><a href={video.url} target="_blank" rel="noreferrer">{video.title}</a></li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                ))
-                            )}
+                            {Object.entries(currentResources).map(([type, data]) => (
+                                <div key={type} className="resource-block">
+                                    <h4>🔹 {type.charAt(0).toUpperCase() + type.slice(1)}</h4>
+                                    {Object.entries(data).map(([sub, content]) => (
+                                        <div key={sub}>
+                                            <p><strong>Sub-topic:</strong> {sub}</p>
+                                            {type === "notes" && <p>{content.explanation}</p>}
+                                            {type === "articles" && (
+                                                <ul>
+                                                    {content.suggestions.map((url, idx) => (
+                                                        <li key={idx}><a href={url} target="_blank" rel="noreferrer">{url}</a></li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                            {type === "videos" && (
+                                                <ul>
+                                                    {content.videos.map((video, idx) => (
+                                                        <li key={idx}><a href={video.url} target="_blank" rel="noreferrer">{video.title}</a></li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            ))}
                         </div>
                     )}
 

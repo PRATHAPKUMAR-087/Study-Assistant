@@ -11,7 +11,7 @@ const cardData = [
   { title: "Your Progress Tracker", btnText: "See Progress", link: "/progress-tracker", icon: "bi-graph-up", color: "text-success" },
   { title: "View Saved Plans", btnText: "Created Schedules", link: "/saved-plans", icon: "bi-clipboard-check", color: "text-info" },
   { title: "View Ongoing Schedules", btnText: "Current Schedules", link: "/ongoing-schedules", icon: "bi-calendar-check", color: "text-dark" },
-  { title: "Get Study Resources", btnText: "Saved Resources", link: "/study-resources", icon: "bi-calendar-check", color: "text-dark" },
+  { title: "Get Study Resources", btnText: "Saved Resources", link: "/study-resources", icon:"bi-download", color: "text-success" },
 ];
 
 export default function Dashboard() {
@@ -74,7 +74,7 @@ export default function Dashboard() {
         <header className="d-flex justify-content-between align-items-center p-3 shadow bg-blue">
           <div className="d-flex align-items-center gap-3 ">
             {!sidebarOpen && <button className="btn btn-primary" onClick={() => setSidebarOpen(true)}><Menu /></button>}
-            <h1 className="fs-1 fw-bold m-0 ms-3 text-capitalize text-wrap" style={{ fontFamily: 'Merriweather, serif', fontWeight: '400', fontSize: '32px', color:'darkblue'}}>Welcome Back, {username}! Let's Study 🎓</h1>
+            <h1 className="fs-1 fw-bold m-0 ms-3 text-capitalize typing" style={{ fontFamily: 'Merriweather, serif', fontWeight: '400', fontSize: '32px', color:''}}>Welcome Back, {username}! Let's Study 🎓</h1>
           </div>
           <div className="d-flex align-items-center gap-3 position-relative">
             <button className="btn btn-outline-secondary" onClick={() => setDropdownOpen(!dropdownOpen)}><User className="text-primary" /></button>
@@ -108,7 +108,7 @@ export default function Dashboard() {
           <div className="row g-4 justify-content-center align-items-stretch h-100">
             {cardData.map((card, index) => (
               <div key={index} className="col-lg-4 col-md-6 col-sm-12 d-flex">
-                <div className="card border-0 shadow p-4 text-center rounded-4 d-flex flex-column w-100" style={{ minHeight: "250px" }}>
+                <div className="card border-0 shadow p-4 text-center rounded-4 d-flex flex-column w-100 dashboard-card" style={{ minHeight: "250px", animationDelay: `${index * 0.2}s`, }}>
                   <h2 className="fs-2 flex-grow-1" style={{ fontFamily: 'Merriweather, serif', fontWeight: '500', fontSize: '32px' }}>{card.title}</h2>
                   <i className={`bi ${card.icon} mb-3 ${card.color}`} style={{ fontSize: "4rem" }}></i> {/* Bootstrap icon */}
                   <button className="btn btn-primary mt-auto" onClick={() => navigate(card.link)}>

@@ -44,7 +44,23 @@ root{
     cursor: pointer;
     font-weight: normal;
 }
-
+.view-saved-btn{
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding: 10px 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 10px;;
+  }
+  .view-saved-btn:hover {
+    color: white;
+    background-color: #0d47a1; /* Darker blue on hover */
+    text-decoration: none; /* Removes underline on hover */
+}
 .view-details-btn:hover {
     color: #1976D2; /* Darker blue on hover */
     text-decoration: none; /* Removes underline on hover */

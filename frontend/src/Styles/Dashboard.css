@@ -1,9 +1,14 @@
 /* Container for the dashboard */
+*body{
+  margin-bottom:10px;
+  
+}
 .dashboard-container {
     display: flex;
     justify-content: center;
     padding: 2rem;
   }
+
   
   /* Grid layout for responsive cards */
   .dashboard-grid {
@@ -23,6 +28,9 @@
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    animation: cardEntry 0.6s ease-out forwards;
+  opacity: 0;
+  transform: scale(0.9);
   }
   
   .rye-regular {
@@ -35,7 +43,6 @@
     font-family: 'Merriweather', serif;
     font-weight: 400;
     font-size: 32px;
-    color: blue;
     white-space: nowrap;
     overflow: hidden;
     /*border-right: 3px solid #000;  /* Simulates the cursor */
@@ -57,6 +64,19 @@
         border-color: transparent;
     }
 }
+
+@keyframes cardEntry {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
 
   /* Hover effect */
   .dashboard-card:hover {
