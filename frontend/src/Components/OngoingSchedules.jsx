@@ -200,20 +200,30 @@ const OngoingSchedules = () => {
               </div>
             )}
 
-            {Array.isArray(content) && content.length > 0 && (
-              <div className="mt-2">
-                <p className="font-medium text-gray-800">🔗 Resources:</p>
-                <ul className="list-disc pl-6 text-blue-600 text-sm">
-                  {content.map((url, idx) => (
-                    <li key={idx}>
-                      <a href={url} target="_blank" rel="noreferrer" className="hover:underline">
-                        {url.includes("youtube.com") ? "🎥 YouTube Video" : url}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+{Array.isArray(content) && content.length > 0 && (
+  <div className="mt-2">
+    <p className="font-medium text-gray-800">🔗 Resources:</p>
+    <ul className="list-disc pl-6 text-blue-600 text-sm">
+      {content.map((item, idx) => {
+        const url = typeof item === "string" ? item : item.url;
+        const title =
+          typeof item === "string"
+            ? (item.includes("youtube.com") ? "🎥 YouTube Video" : url)
+            : item.title || (url.includes("youtube.com") ? "🎥 YouTube Video" : url);
+
+        return (
+          <li key={idx}>
+            <a href={url} target="_blank" rel="noreferrer" className="hover:underline">
+              {title}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+)}
+
+
           </div>
         );
       })}

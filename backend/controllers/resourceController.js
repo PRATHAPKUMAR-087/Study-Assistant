@@ -88,48 +88,66 @@ const saveResources = (req, res) => {
   }
 
   const formattedCreatedAt = formatMySQLDateTime(created_at);
-  const resource_type = type; // 'notes', 'articles', or 'videos'
+  const insertSql = `INSERT INTO resources (user_id, topic, created_at, resource_type, subtopic, content)
+                     VALUES (?, ?, ?, ?, ?, ?)`;
 
-
-  const sql = `INSERT INTO resources (user_id, topic, created_at, resource_type, subtopic, content)
-               VALUES (?, ?, ?, ?, ?, ?)`;
+  const deleteSql = `DELETE FROM resources 
+                     WHERE user_id = ? AND topic = ? AND created_at = ? AND resource_type = ? AND subtopic = ?`;
 
   const insertValues = [];
 
   for (const [subtopic, contentTypes] of Object.entries(resources)) {
     for (const [type, content] of Object.entries(contentTypes)) {
-      insertValues.push([
-        user_id,
-        topic,
-        formattedCreatedAt,
-        type,        // videos / articles / notes
-        subtopic,    // actual subtopic name
-        JSON.stringify(content)
-      ]);
+      insertValues.push({
+        values: [
+          user_id,
+          topic,
+          formattedCreatedAt,
+          type,        // videos / articles / notes
+          subtopic,    // actual subtopic name
+          JSON.stringify(content)
+        ],
+        deleteParams: [
+          user_id,
+          topic,
+          formattedCreatedAt,
+          type,
+          subtopic
+        ]
+      });
     }
   }
-  
-
 
   let completed = 0;
   let errors = [];
 
-  insertValues.forEach((values, idx) => {
-    db.query(sql, values, (err) => {
-      if (err) {
-        console.error(`❌ DB error for row ${idx + 1}:`, err);
-        errors.push(err);
+  insertValues.forEach((entry, idx) => {
+    // Step 1: Delete existing duplicate
+    db.query(deleteSql, entry.deleteParams, (deleteErr) => {
+      if (deleteErr) {
+        console.error(`❌ Failed to delete previous resource row ${idx + 1}:`, deleteErr);
+        errors.push(deleteErr);
       }
-      completed++;
-      if (completed === insertValues.length) {
-        if (errors.length > 0) {
-          return res.status(500).json({ error: "Some inserts failed", details: errors });
+
+      // Step 2: Insert new resource
+      db.query(insertSql, entry.values, (insertErr) => {
+        if (insertErr) {
+          console.error(`❌ DB error while inserting row ${idx + 1}:`, insertErr);
+          errors.push(insertErr);
         }
-        return res.json({ message: "✅ Resources saved successfully!" });
-      }
+
+        completed++;
+        if (completed === insertValues.length) {
+          if (errors.length > 0) {
+            return res.status(500).json({ error: "Some inserts failed", details: errors });
+          }
+          return res.json({ message: "✅ Resources saved successfully!" });
+        }
+      });
     });
   });
 };
+
 
 
 const viewResources = async (req, res) => {
