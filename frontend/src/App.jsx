@@ -10,7 +10,9 @@ import ProgressTracker from "./Components/ProgressTracker.jsx";
 import ProtectedRoute from "./Components/ProtectedRoute.jsx"; // Import the ProtectedRoute component
 import RegisterPage from "./Components/RegisterPage.jsx";
 import SavedPlans from "./Components/SavedPlans.jsx";
+import SetReminder from "./Components/SetReminder.jsx";
 import StudyResources from "./Components/StudyResources.jsx";
+import ViewReminder from "./Components/ViewReminder.jsx";
 import WelcomePage from "./Components/WelcomePage.jsx";
 
 function App() {
@@ -83,6 +85,22 @@ function App() {
           element={
             <ProtectedRoute>
               <StudyResources />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/set-reminder"
+          element={
+            <ProtectedRoute>
+              <SetReminder />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/view-reminder"
+          element={
+            <ProtectedRoute>
+              <ViewReminder />
             </ProtectedRoute>
           }
         />

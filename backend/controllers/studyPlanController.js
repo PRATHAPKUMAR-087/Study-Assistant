@@ -395,6 +395,30 @@ const getAllPlans = async (req, res) => {
     });
 };
 
+// controller/studyPlanController.js
+const getUserPlans = async (req, res) => {
+  const { userId } = req.params;
+
+  if (!userId) {
+    return res.status(400).json({ message: 'User ID is required' });
+  }
+
+  try {
+    const [plans] = await db.promise().query(
+      'SELECT id, topic, status FROM study_plans WHERE user_id = ? AND status != "completed"',
+      [userId]
+    );
+    res.status(200).json(plans);
+  } catch (err) {
+    console.error('Error fetching user plans:', err);
+    res.status(500).json({ message: 'Failed to fetch plans' });
+  }
+};
+
+module.exports = {
+  getUserPlans,
+};
+
 
 module.exports = {
     saveStudyPlan,
@@ -408,5 +432,6 @@ module.exports = {
     completeStudy,
     generateManualPlan,
     getAllPlans,
+    getUserPlans
     // Add other functions here...
 };

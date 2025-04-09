@@ -51,7 +51,7 @@ body {
 }
 
 .progress-container::-webkit-scrollbar-thumb {
-    background: #1976d2;
+    display: none;
     border-radius: 10px;
 }
 

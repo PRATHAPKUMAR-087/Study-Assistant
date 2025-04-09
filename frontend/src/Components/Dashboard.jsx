@@ -7,7 +7,7 @@ import "../Styles/Dashboard.css";
 const cardData = [
   { title: "Generate New Study Plan", btnText: "Create New Plan", link: "/generate-study-plan", icon: "bi-book", color: "text-primary" },
   { title: "Create Manual Plan", btnText: "Create Manually", link: "/manual-schedule", icon: "bi-pencil-square", color: "text-danger" },
-  { title: "Create Study Reminder", btnText: "Set Reminder", link: "#", icon: "bi-alarm", color: "text-warning" },
+  { title: "Create Study Reminder", btnText: "Set Reminder", link: "/set-reminder", icon: "bi-alarm", color: "text-warning" },
   { title: "Your Progress Tracker", btnText: "See Progress", link: "/progress-tracker", icon: "bi-graph-up", color: "text-success" },
   { title: "View Saved Plans", btnText: "Created Schedules", link: "/saved-plans", icon: "bi-clipboard-check", color: "text-info" },
   { title: "View Ongoing Schedules", btnText: "Current Schedules", link: "/ongoing-schedules", icon: "bi-calendar-check", color: "text-dark" },
@@ -49,14 +49,14 @@ export default function Dashboard() {
   };
 
   return (
-    <div className={`d-flex`} style={{ minHeight: "100vh", overflowX: "hidden", width: "100vw" }}>
+    <div className={`d-flex`} style={{ minHeight: "100vh", overflowX: "auto",width: "100vw" }}>
       {/* Sidebar */}
       <nav className={`bg-primary text-white position-fixed top-0 start-0 p-4`} style={{ width: sidebarOpen ? "250px" : "0", height: "100vh", zIndex: 1000, transition: "width 0.3s ease-in-out", overflow: "hidden", visibility: sidebarOpen ? "visible" : "hidden" }}>
         <button className="btn btn-light mb-3 w-30" onClick={() => setSidebarOpen(false)}><Menu /></button>
         <ul className="list-unstyled">
           <li className="py-3 border-bottom cursor-pointer d-flex align-items-center gap-2" onClick={() => navigate("/saved-plans")}><button className="btn btn-light mb-3 w-100"><BookOpen /> Study Plans</button></li>
           <li className="py-3 border-bottom cursor-pointer d-flex align-items-center gap-2" onClick={() => navigate("/history-page")}><button className="btn btn-light mb-3 w-100"><Clock /> History</button></li>
-          <li className="py-3 border-bottom cursor-pointer d-flex align-items-center gap-2" ><button className="btn btn-light mb-3 w-100"><Clock /> Reminders</button></li>
+          <li className="py-3 border-bottom cursor-pointer d-flex align-items-center gap-2" onClick={() => navigate("/view-reminder")}><button className="btn btn-light mb-3 w-100"><Clock /> Reminders</button></li>
           <li className="py-3 border-bottom cursor-pointer d-flex align-items-center gap-2" onClick={() => navigate("/progress-tracker")}><button className="btn btn-light mb-3 w-100"><BarChart /> Progress Tracker</button></li>
           <li className="py-3 border-bottom cursor-pointer d-flex align-items-center gap-2" onClick={() => navigate("/ongoing-schedules")}><button className="btn btn-light mb-3 w-100"><ListChecks /> Ongoing Schedules</button></li>
           <li className="py-3 border-bottom cursor-pointer d-flex align-items-center gap-2" onClick={() => navigate("/contact-us")}>

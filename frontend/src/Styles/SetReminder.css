@@ -1,0 +1,96 @@
+/* Global container */
+.reminder-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    animation: cardEntry 0.5s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+  
+  /* Heading */
+  .reminder-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 28px;
+  }
+  
+  /* Form fields */
+  form label {
+    display: block;
+    margin-top: 20px;
+    font-weight: 600;
+    color: #444;
+  }
+  
+  input[type="text"],
+  input[type="datetime-local"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 12px 14px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
+  
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #4b7bec;
+    outline: none;
+  }
+  
+  /* Submit button */
+  button[type="submit"] {
+    width: 100%;
+    margin-top: 30px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: #4b7bec;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  button[type="submit"]:hover {
+    background: #3867d6;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 600px) {
+    .reminder-container {
+      margin: 20px;
+      padding: 20px;
+    }
+  
+    .reminder-container h2 {
+      font-size: 24px;
+    }
+  
+    input[type="text"],
+    input[type="datetime-local"],
+    select,
+    textarea {
+      font-size: 15px;
+      padding: 10px 12px;
+    }
+  
+    button[type="submit"] {
+      font-size: 15px;
+      padding: 10px;
+    }
+  }
+  

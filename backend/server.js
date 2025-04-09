@@ -6,6 +6,8 @@ const db = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const studyPlanRoutes = require("./routes/studyPlanRoutes");
+const reminderRoutes = require("./routes/reminderRoutes"); // ✅ Import Reminder Routes
+const startReminderJob = require('./jobs/reminderChecker');
 require("dotenv").config();
 
 const app = express();
@@ -43,6 +45,8 @@ app.use((req, res, next) => {
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", studyPlanRoutes);
+app.use("/api", reminderRoutes); // ✅ Use Reminder Routes
 
+startReminderJob();
 // ✅ Start Server
 app.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));

@@ -10,7 +10,8 @@ const {
     updateProgress,
     completeStudy,
     generateManualPlan,
-    getAllPlans, // ✅ Already imported correctly
+    getAllPlans,
+    getUserPlans, // ✅ Already imported correctly
 } = require("../controllers/studyPlanController");
 
 const { getResources, saveResources, viewResources } = require("../controllers/resourceController");
@@ -32,6 +33,7 @@ router.post("/generate-manual-plan", generateManualPlan);
 router.get("/history", getAllPlans);
 router.post("/save-resources", saveResources);
 router.get("/view-resources", viewResources); // Adjusted to use the correct function
+router.get('/get-user-plans/:userId', getUserPlans);
 
 
 module.exports = router;

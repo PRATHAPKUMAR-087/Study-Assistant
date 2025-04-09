@@ -1,14 +1,11 @@
 /* Container for the dashboard */
-*body{
-  margin-bottom:10px;
-  
-}
+
 .dashboard-container {
     display: flex;
     justify-content: center;
     padding: 2rem;
   }
-
+  
   
   /* Grid layout for responsive cards */
   .dashboard-grid {
