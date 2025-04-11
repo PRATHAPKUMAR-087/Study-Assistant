@@ -12,8 +12,6 @@ const db = mysql.createPool({
 
 function startReminderJob() {
   cron.schedule('* * * * *', async () => {
-    console.log('⏰ Checking for due reminders...');
-
     const currentTime = new Date();
 
     try {

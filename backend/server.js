@@ -5,6 +5,7 @@ const cors = require("cors");
 const db = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const quizRoutes = require("./routes/quizRoutes"); // ✅ Import Quiz Routes
 const studyPlanRoutes = require("./routes/studyPlanRoutes");
 const reminderRoutes = require("./routes/reminderRoutes"); // ✅ Import Reminder Routes
 const startReminderJob = require('./jobs/reminderChecker');
@@ -45,6 +46,7 @@ app.use((req, res, next) => {
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", studyPlanRoutes);
+app.use("/api", quizRoutes); // ✅ Use Quiz Routes
 app.use("/api", reminderRoutes); // ✅ Use Reminder Routes
 
 startReminderJob();
